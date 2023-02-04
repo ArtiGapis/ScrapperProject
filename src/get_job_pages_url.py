@@ -5,8 +5,9 @@ import yaml
 
 with open('../config/main.yml') as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
+    head_config = config['headers']
 
-headers = {config['headers']['name_of_header']: config['headers']['value_of_the_header']}
+headers = {head_config['name_of_header']: head_config['value_of_the_header']}
 
 ''' Checks how many pages the search has and takes their url'''
 def url_check():
@@ -21,7 +22,6 @@ def url_check():
     else: url_list.append(url)
     return url_list
 
-
 '''Picks the job posting url from all pages received'''
 def job_pages_get():
     for url in url_check():
@@ -31,4 +31,14 @@ def job_pages_get():
         job_soup_page = soup(content.text, 'html.parser', parse_only=all_jobs_pages)
         for job_page in job_soup_page.findAll('a', class_='list_a can_visited list_a_has_logo'):
             job_pages_list.append(job_page.attrs['href'])
-        return  job_pages_list
+        return job_pages_list
+
+'''Scrape all jobs info from url'''
+def jobs_loader():
+    all_jobs_list = []
+    for page in job_pages_get():
+        content = requests.get(page, headers=headers)
+        jobs = strainer("header", attrs={"id": "jobad_header"})
+        jobs_soup = soup(content.text, 'html.parser', parse_only=jobs)
+        all_jobs_list.append(jobs_soup)
+    return all_jobs_list

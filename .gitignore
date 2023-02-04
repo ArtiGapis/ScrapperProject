@@ -1,2 +1,6 @@
 .idea
 config/main.yml
+docs/jobs.json
+src/__pycache__
+logs/error.log
+logs/info.log

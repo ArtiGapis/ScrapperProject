@@ -4,3 +4,32 @@ headers:
         value_of_the_header: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
                         (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 
+logging:
+    version: 1
+    formatters:
+        brief:
+            format: '%(message)s'
+        default:
+            format: '%(asctime)s %(levelname)-8s [%(name)s] %(message)s'
+            datefmt: '%Y-%m-%d %H:%M:%S'
+    handlers:
+        console:
+            class: logging.StreamHandler
+            level: DEBUG
+        file:
+            class: logging.FileHandler
+            level: DEBUG
+            formatter: default
+            filename: ..\logs\main.log
+        error_file:
+            class: logging.FileHandler
+            level: DEBUG
+            formatter: default
+            filename: ..\logs\error.log
+    loggers:
+        main:
+            level: DEBUG
+            handlers: [ file ]
+        error:
+            level: DEBUG
+            handlers: [ error_file ]
