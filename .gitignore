@@ -2,5 +2,4 @@
 config/main.yml
 docs/jobs.json
 __pycache__
-logs/error.log
 logs/info.log

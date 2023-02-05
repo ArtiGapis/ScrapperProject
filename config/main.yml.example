@@ -1,8 +1,11 @@
-url: https://www.cvbankas.lt/?keyw=
+url: 'https://www.cvbankas.lt/?keyw='
 headers:
         name_of_header: 'User-Agent'
         value_of_the_header: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
                         (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+
+animation: ["[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
+json_file: "docs/jobs.json"
 
 logging:
     version: 1
@@ -20,16 +23,11 @@ logging:
             class: logging.FileHandler
             level: DEBUG
             formatter: default
-            filename: ..\logs\main.log
-        error_file:
-            class: logging.FileHandler
-            level: DEBUG
-            formatter: default
-            filename: ..\logs\error.log
+            filename: logs\info.log
     loggers:
         main:
             level: DEBUG
             handlers: [ file ]
-        error:
+        console:
             level: DEBUG
-            handlers: [ error_file ]
+            handlers: [ console ]
