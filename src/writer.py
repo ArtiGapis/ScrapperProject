@@ -19,7 +19,8 @@ def writer_to_json():
     jobs_json = []
     for job in jic.salary_clean():
         jobs = jobs_class.Jobs(*job)
-        jobs_json.append({'Company' : jobs.company_fix, 'Position': jobs.position, 'City': jobs.city, 'Salary': jobs.salary, 'Intrest' : int(jobs.intrest), 'Acept' : int(jobs.acept)})
+        jobs_json.append({'Company' : jobs.company_fix, 'Position': jobs.position, 'City': jobs.city, \
+                          'Salary': jobs.salary, 'Intrest' : int(jobs.intrest), 'Acept' : int(jobs.acept)})
     with open(config['json_file'], "w", encoding='utf8') as write_file:
         json.dump(jobs_json, write_file, indent=4, default=vars)
     main_logger.info(f'The information is saved in a json file')
@@ -29,7 +30,7 @@ def writer_to_json():
 '''All processed information is placed in .csv'''
 def writer_to_csv(list_of_dict, choice):
     try:
-        with open(f'../docs/{choice}.csv', 'wb') as output_file:
+        with open(f'docs/{choice}.csv', 'wb') as output_file:
             dict_writer = csv.DictWriter(output_file, list_of_dict[0].keys())
             dict_writer.writeheader()
             dict_writer.writerows(list_of_dict)
@@ -63,4 +64,3 @@ def write_to_xlsx(list_of_dict, choice):
     except FileNotFoundError:
         console_logger.error('Something is wrong with the document or directory')
         main_logger.error('Writer_to_csv give FileNotFoundError')
-

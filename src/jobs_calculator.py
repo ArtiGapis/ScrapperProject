@@ -3,9 +3,11 @@ import logging.config
 import collections
 import yaml
 import json
+import sys
+sys.path.append('src/')
 
 
-with open('config/main.yml', 'r') as log_config:
+with open('../config/main.yml', 'r') as log_config:
     logging.config.dictConfig(yaml.safe_load(log_config)['logging'])
 
 main_logger = logging.getLogger('main')
