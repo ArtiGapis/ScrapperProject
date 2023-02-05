@@ -9,7 +9,6 @@ with open('config/main.yml', 'r') as log_config:
     logging.config.dictConfig(yaml.safe_load(log_config)['logging'])
 
 main_logger = logging.getLogger('main')
-error_logger = logging.getLogger('error')
 console_logger = logging.getLogger('console')
 
 '''Reading json file data'''

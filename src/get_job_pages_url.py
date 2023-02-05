@@ -14,7 +14,6 @@ with open('config/main.yml', 'r') as log_config:
     logging.config.dictConfig(yaml.safe_load(log_config)['logging'])
 
 main_logger = logging.getLogger('main')
-error_logger = logging.getLogger('error')
 console_logger = logging.getLogger('console')
 
 headers = {head_config['name_of_header']: head_config['value_of_the_header']}
