@@ -3,8 +3,6 @@ import logging.config
 import collections
 import yaml
 import json
-import sys
-sys.path.append('src/')
 
 
 with open('config/main.yml', 'r') as log_config:
