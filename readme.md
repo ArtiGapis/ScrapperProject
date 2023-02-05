@@ -11,8 +11,8 @@ This project must be run via main.py or via a virtual environment terminal with 
 How to spend in other ways has not yet been clarified.
 ### Lounch procedure
 - Lounch command line
-- Issue the command: 'git clone https://github.com/ArtiGapis/ScrapperProject.git
-- Open in your favorite editor / IDE configure virtual environment with Python v.10
+- Issue the command: 'git clone https://github.com/ArtiGapis/ScrapperProject.git'
+- Open in your favorite editor / IDE configure virtual environment with Python v3.10
 - Install the necessary libraries: 'pip install -r requirements.txt'
 - Copy  'config/main.yml.example' and create 'config/main.yml' and provide your account values
 ...
