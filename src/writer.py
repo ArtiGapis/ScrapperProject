@@ -1,30 +1,21 @@
-import src.jobs_info_cleaner as jic
-import src.jobs_class as jobs_class
+import src.classes_wrapper as jobs_class
+from src.get_configs import all_configs
 from xlsxwriter import Workbook
 import unicodecsv as csv
-import logging.config
-import yaml
 import json
 
-with open('config/main.yml', 'r') as log_config:
-    logging.config.dictConfig(yaml.safe_load(log_config)['logging'])
-with open('config/main.yml', encoding='utf8') as f:
-    config = yaml.load(f, Loader=yaml.FullLoader)
-
-main_logger = logging.getLogger('main')
-console_logger = logging.getLogger('console')
-
+config = all_configs
 '''All processed information is placed in .json'''
-def writer_to_json():
+def writer_to_json(jobs_list):
     jobs_json = []
-    for job in jic.salary_clean():
+    for job in jobs_list:
         jobs = jobs_class.Jobs(*job)
         jobs_json.append({'Company' : jobs.company_fix, 'Position': jobs.position, 'City': jobs.city, \
-                          'Salary': jobs.salary, 'Intrest' : int(jobs.intrest), 'Acept' : int(jobs.acept)})
-    with open(config['json_file'], "w", encoding='utf8') as write_file:
+                          'Salary': jobs.salary, 'Intrest' : int(jobs.intrest), 'Acept': int(jobs.acept)})
+    with open(config.json_file, "w", encoding='utf8') as write_file:
         json.dump(jobs_json, write_file, indent=4, default=vars)
-    main_logger.info(f'The information is saved in a json file')
-    console_logger.info(f'The information is saved in a json file')
+    config.main_logger.info(f'The information is saved in a json file')
+    config.console_logger.info(f'The information is saved in a json file')
 
 
 '''All processed information is placed in .csv'''
@@ -34,11 +25,11 @@ def writer_to_csv(list_of_dict, choice):
             dict_writer = csv.DictWriter(output_file, list_of_dict[0].keys())
             dict_writer.writeheader()
             dict_writer.writerows(list_of_dict)
-        main_logger.info(f'All write to CSV file')
-        console_logger.info(f'All write to CSV file')
+        config.main_logger.info(f'All write to CSV file')
+        config.console_logger.info(f'All write to CSV file')
     except FileNotFoundError:
-        console_logger.error('Something is wrong with the document or directory')
-        main_logger.error('Writer_to_csv give FileNotFoundError')
+        config.console_logger.error('Something is wrong with the document or directory')
+        config.main_logger.error('Writer_to_csv give FileNotFoundError')
 
 
 '''All processed information is placed in Excel file'''
@@ -59,8 +50,8 @@ def write_to_xlsx(list_of_dict, choice):
                 ws.write(row, col, _value)
             row += 1
         wb.close()
-        main_logger.info(f'All write to Excel file')
-        console_logger.info(f'All write to Excel file')
+        config.main_logger.info(f'All write to Excel file')
+        config.console_logger.info(f'All write to Excel file')
     except FileNotFoundError:
-        console_logger.error('Something is wrong with the document or directory')
-        main_logger.error('Writer_to_csv give FileNotFoundError')
+        config.console_logger.error('Something is wrong with the document or directory')
+        config.main_logger.error('Writer_to_csv give FileNotFoundError')

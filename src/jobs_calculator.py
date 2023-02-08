@@ -1,42 +1,41 @@
+from src.get_configs import all_configs
 from operator import itemgetter
-import logging.config
 import collections
-import yaml
 import json
+import sys
 
-
-with open('config/main.yml', 'r') as log_config:
-    logging.config.dictConfig(yaml.safe_load(log_config)['logging'])
-
-main_logger = logging.getLogger('main')
-console_logger = logging.getLogger('console')
+config = all_configs
 
 '''Reading json file data'''
-def read():
-    with open('docs/jobs.json', 'r') as people_json:
-        data = json.load(people_json)
-    return data
+def read_json(json_file):
+    try:
+        with open(json_file, 'r') as jobs_json:
+            data = json.load(jobs_json)
+        return data
+    except FileNotFoundError:
+        config.main_logger.error(f'Function "read_json" error. JSON file not found')
+        sys.exit(f'JSON file not found. check the file "{json_file}" and restart the program')
 
 
 '''Grouping by highest starting salary offered'''
-def highest_salary():
-    newlist = sorted(read(), key=itemgetter('Salary'), reverse=True)
-    main_logger.info(f'Get grouping by highest starting salary offered')
-    console_logger.info(f'Get grouping by highest starting salary offered')
-    return newlist
+def highest_salary(json_db):
+    h_salary_lst = sorted(json_db, key=itemgetter('Salary'), reverse=True)
+    config.main_logger.info(f'Get grouping by highest starting salary offered')
+    config.console_logger.info(f'Get grouping by highest starting salary offered')
+    return h_salary_lst
 
 
 '''Grouping job offers by interest'''
-def highest_intrest():
-    newlist = sorted(read(), key=itemgetter('Acept'), reverse=True)
-    main_logger.info(f'Get grouping job offers by interest')
-    console_logger.info(f'Get grouping job offers by interest')
-    return newlist
+def highest_intrest(json_db):
+    h_intrest_lst = sorted(json_db, key=itemgetter('Acept'), reverse=True)
+    config.main_logger.info(f'Get grouping job offers by interest')
+    config.console_logger.info(f'Get grouping job offers by interest')
+    return h_intrest_lst
 
 
 '''Cities with the most supply by user keyword'''
-def best_cities():
-    unique_counts = collections.Counter(e['City'] for e in read())
-    main_logger.info(f'Get cities with the most supply by user keyword')
-    console_logger.info(f'Get cities with the most supply by user keyword')
-    return unique_counts
+def best_cities(json_db):
+    best_city_lst = collections.Counter(e['City'] for e in json_db)
+    config.main_logger.info(f'Get cities with the most supply by user keyword')
+    config.console_logger.info(f'Get cities with the most supply by user keyword')
+    return best_city_lst

@@ -1,3 +1,4 @@
+
 url: 'https://www.cvbankas.lt/?keyw='
 headers:
         name_of_header: 'User-Agent'
@@ -5,7 +6,8 @@ headers:
                         (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 
 animation: ["[■□□□□□□□□□]","[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]", "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]", "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
-json_file: "docs/jobs.json"
+json_file: C:\\Users\\artur\\PycharmProjects\\ScrapperProject\\docs\\jobs.json
+
 
 logging:
     version: 1
@@ -23,7 +25,7 @@ logging:
             class: logging.FileHandler
             level: DEBUG
             formatter: default
-            filename: logs\info.log
+            filename: C:\\Users\\artur\\PycharmProjects\\ScrapperProject\\logs\\info.log
     loggers:
         main:
             level: DEBUG

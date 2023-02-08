@@ -1,19 +1,13 @@
 import src.get_job_pages_url as job_info
-import src.jobs_class as jobs_class
-import logging.config
-import yaml
+import src.classes_wrapper as jobs_class
+from src.get_configs import all_configs
 import re
 
-with open('config/main.yml', 'r') as log_config:
-    logging.config.dictConfig(yaml.safe_load(log_config)['logging'])
-
-main_logger = logging.getLogger('main')
-console_logger = logging.getLogger('console')
-
+config = all_configs
 '''Unnecessary information is cleared'''
-def job_clean():
+def job_clean(full_jobs_list):
     all_jobs_list = []
-    for job in job_info.jobs_loader():
+    for job in full_jobs_list:
         position = job.find('h1', id='jobad_heading1').text
         city = job.find('span', itemprop='addressLocality').text
         company = job.find('div', id='jobad_location')
@@ -35,14 +29,15 @@ def job_clean():
             intrest = 0
             acept = 0
         all_jobs_list.append((position, company_fix, city, salary, intrest, acept))
-    main_logger.info(f'Jobs fields is cleaned')
-    console_logger.info(f'Jobs fields is cleaned')
+    config.main_logger.info(f'Jobs fields is cleaned')
+    config.console_logger.info(f'Jobs fields is cleaned')
     return all_jobs_list
 
+
 '''Clears the salary field to use as an int'''
-def salary_clean():
-    all_jobs_list = []
-    for i in job_clean():
+def salary_clean(all_jobs_list):
+    all_jobs_list_clean = []
+    for i in all_jobs_list:
         job = jobs_class.Jobs(*i)
         if '-' in job.salary:
             salary_re = re.search(r'(\d*)-(\d*)', job.salary)
@@ -57,7 +52,10 @@ def salary_clean():
             salary_fix = float(job.salary.replace('Iki ', '').replace(',', '.'))
         else:
             salary_fix = float(job.salary.replace(',', '.'))
-        all_jobs_list.append((job.position, job.company_fix, job.city, salary_fix, job.intrest, job.acept))
-    main_logger.info(f'Convert salary')
-    console_logger.info(f'Convert salary')
-    return all_jobs_list
+        all_jobs_list_clean.append((job.position, job.company_fix, job.city, salary_fix, job.intrest, job.acept))
+    config.main_logger.info(f'Convert salary')
+    config.console_logger.info(f'Convert salary')
+    return all_jobs_list_clean
+
+
+all_jobs_list_clean = salary_clean(job_clean(job_info.all_jobs_list))
