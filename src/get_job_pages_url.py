@@ -1,14 +1,14 @@
 from bs4 import BeautifulSoup as soup, SoupStrainer as strainer
-from src.get_configs import all_configs
+# from src.get_configs import all_configs
 import src.get_input as get_input
 import requests
 import sys
 
-config = all_configs
+# config = all_configs
 ''' Checks how many pages the search has and takes their url'''
-def url_check(url):
+def url_check(url, input, config):
     url_list = []
-    full_url = f'{url}{get_input.input_getter()}'
+    full_url = f'{url}{input}'
     content = requests.get(full_url, headers=config.headers)
     all_lists = strainer("ul", attrs={"class": "pages_ul_inner"})
     list_soup = soup(content.text, 'html.parser', parse_only=all_lists)
@@ -27,7 +27,7 @@ def url_check(url):
 
 
 '''Picks the job posting url from all pages received'''
-def job_pages_get(url_list):
+def job_pages_get(url_list, config):
     job_pages_list = []
     for url_page in url_list:
         content = requests.get(url_page, headers=config.headers)
@@ -45,7 +45,7 @@ def job_pages_get(url_list):
 
 
 '''Scrape all jobs info from url'''
-def jobs_loader(job_pages):
+def jobs_loader(job_pages, config):
     all_jobs_list = []
     config.main_logger.info(f'Starting to load information')
     config.console_logger.info(f'Starting to load information')
@@ -62,4 +62,4 @@ def jobs_loader(job_pages):
     return all_jobs_list
 
 
-all_jobs_list = jobs_loader(job_pages_get(url_check(config.url)))
+

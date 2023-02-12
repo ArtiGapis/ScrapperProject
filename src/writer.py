@@ -1,12 +1,12 @@
 import src.classes_wrapper as jobs_class
-from src.get_configs import all_configs
+# from src.get_configs import all_configs
 from xlsxwriter import Workbook
 import unicodecsv as csv
 import json
 
-config = all_configs
+# configer = all_configs
 '''All processed information is placed in .json'''
-def writer_to_json(jobs_list):
+def writer_to_json(jobs_list, config):
     jobs_json = []
     for job in jobs_list:
         jobs = jobs_class.Jobs(*job)
@@ -19,7 +19,7 @@ def writer_to_json(jobs_list):
 
 
 '''All processed information is placed in .csv'''
-def writer_to_csv(list_of_dict, choice):
+def writer_to_csv(list_of_dict, choice, config):
     try:
         with open(f'docs/{choice}.csv', 'wb') as output_file:
             dict_writer = csv.DictWriter(output_file, list_of_dict[0].keys())
@@ -33,7 +33,7 @@ def writer_to_csv(list_of_dict, choice):
 
 
 '''All processed information is placed in Excel file'''
-def write_to_xlsx(list_of_dict, choice):
+def write_to_xlsx(list_of_dict, choice, config):
     try:
         wb = Workbook(f'docs/{choice}.xlsx')
         ws = wb.add_worksheet(choice)

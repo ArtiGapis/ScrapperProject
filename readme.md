@@ -18,8 +18,6 @@ places it in the document desired by the user.
 - Type the command at the command prompt: 'git clone https://github.com/ArtiGapis/ScrapperProject.git'
 - Open in your favorite editor / IDE configure virtual environment with Python v3.10
 - Install the necessary libraries: 'pip install -r requirements.txt'
-- Copy  'config/main.yml.example' and create 'config/main.yml' and provide your account values
-- In the config file, change the lines "json_file" and "filename" depending on where your project is placed
-...
+- Rename "config/main.yml.example" to "config/main.yml"
 ### Test procedure
 At the moment, only one test is placed, which checks whether the list dict groups well.

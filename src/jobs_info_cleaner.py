@@ -1,11 +1,11 @@
 import src.get_job_pages_url as job_info
 import src.classes_wrapper as jobs_class
-from src.get_configs import all_configs
+# from src.get_configs import all_configs
 import re
 
-config = all_configs
+# config = all_configs
 '''Unnecessary information is cleared'''
-def job_clean(full_jobs_list):
+def job_clean(full_jobs_list, config):
     all_jobs_list = []
     for job in full_jobs_list:
         position = job.find('h1', id='jobad_heading1').text
@@ -35,7 +35,7 @@ def job_clean(full_jobs_list):
 
 
 '''Clears the salary field to use as an int'''
-def salary_clean(all_jobs_list):
+def salary_clean(all_jobs_list, config):
     all_jobs_list_clean = []
     for i in all_jobs_list:
         job = jobs_class.Jobs(*i)
@@ -58,4 +58,4 @@ def salary_clean(all_jobs_list):
     return all_jobs_list_clean
 
 
-all_jobs_list_clean = salary_clean(job_clean(job_info.all_jobs_list))
+
