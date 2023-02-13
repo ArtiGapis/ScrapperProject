@@ -1,11 +1,8 @@
 from bs4 import BeautifulSoup as soup, SoupStrainer as strainer
-# from src.get_configs import all_configs
-import src.get_input as get_input
 import requests
 import sys
 
-# config = all_configs
-''' Checks how many pages the search has and takes their url'''
+''' Checks how many pages have a URL'''
 def url_check(url, input, config):
     url_list = []
     full_url = f'{url}{input}'
@@ -21,12 +18,12 @@ def url_check(url, input, config):
             url_list.append(f'{full_url}&page={count}')
             count += 1
     else: url_list.append(full_url)
-    config.main_logger.info(f'Get {count} url pages by user value')
-    config.console_logger.info(f'Get {count} url pages by user value')
+    config.main_logger.info(f'Gets {count} url pages by user value')
+    config.console_logger.info(f'Gets {count} url pages by user value')
     return url_list
 
 
-'''Picks the job posting url from all pages received'''
+'''Takes the job advertisements URL from all pages received'''
 def job_pages_get(url_list, config):
     job_pages_list = []
     for url_page in url_list:
@@ -36,15 +33,15 @@ def job_pages_get(url_list, config):
         for job_page in job_soup_page.findAll('a', class_='list_a can_visited list_a_has_logo'):
             job_pages_list.append(job_page.attrs['href'])
     if len(job_pages_list) > 0:
-        config.main_logger.info(f'Found url pages of works')
-        config.console_logger.info(f'Found url pages of works')
+        config.main_logger.info(f'Founds URL pages of works')
+        config.console_logger.info(f'Founds URL pages of works')
     elif len(job_pages_list) == 0:
-        print('No jobs were found for the specified keyword.\nEXIT the program')
+        print('No job advertisements found for the specific keyword.\nEXIT the program')
         sys.exit()
     return job_pages_list
 
 
-'''Scrape all jobs info from url'''
+'''Scrapes all job advertisements from URL'''
 def jobs_loader(job_pages, config):
     all_jobs_list = []
     config.main_logger.info(f'Starting to load information')

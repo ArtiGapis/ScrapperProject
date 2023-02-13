@@ -1,5 +1,6 @@
+import sys
 from src.jobs_calculator import highest_salary as salary, \
-    highest_intrest as intrest, best_cities as city, read_json
+    highest_interest as interest, best_cities as city, read_json
 import src.jobs_info_cleaner as jobs_info_cleaner
 from src.get_configs import all_configs
 import src.get_input as get_input
@@ -24,7 +25,7 @@ def information_processing(jobs_list, config):
 
 
 def saves_input(list_of_dict, choice, question, config):
-    choise_input = input('Do you want to save the information or just view it?\n(answer: view/save)\n').lower()
+    choise_input = input('Do you want to save or just view the information?\n(answer: view/save)\n').lower()
     if choise_input == 'view':
         print(question)
         for line in list_of_dict:
@@ -36,13 +37,15 @@ def saves_input(list_of_dict, choice, question, config):
         elif int(file_input) == 2:
             writer.write_to_xlsx(list_of_dict, choice, config)
         else:
-            print(f'This is not {CRED}1{CEND} or {CRED}2{CEND} \nTry again\n')
+            print(f'This is not {CRED}1{CEND} or {CRED}2{CEND} ')
             config.main_logger.warning(f'The value <{file_input}> is not from the given list')
             print_choices(get_input.choices_input(config), read_json, config)
+            sys.exit('EXIT')
     else:
-        print(f'This is not {CRED}view{CEND} or {CRED}save{CEND} words\nTry again\n')
+        print(f'This is not {CRED}view{CEND} or {CRED}save{CEND} words')
         config.main_logger.warning(f'The value <{choise_input}> is not from the given list')
         print_choices(get_input.choices_input, read_json, config)
+        sys.exit('EXIT')
 
 
 def print_choices(choices_input, json_db, config):
@@ -53,12 +56,12 @@ def print_choices(choices_input, json_db, config):
         question = 'Companies with the highest salaries:'
         for i in salary(json_db, config):
             list_of_dict.append(i)
-    elif choise == 'intrest':
+    elif choise == 'interest':
         question = 'Most preferred companies:'
-        for i in intrest(json_db, config):
+        for i in interest(json_db, config):
             list_of_dict.append(i)
     elif choise == 'city':
-        question = f'The most suitable specialty city:'
+        question = f'The most suitable city by selected word:'
         place = 1
         for i in city(json_db, config):
             list_of_dict.append({'Nr': place, 'City': i})

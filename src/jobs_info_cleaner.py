@@ -1,9 +1,6 @@
-import src.get_job_pages_url as job_info
 import src.classes_wrapper as jobs_class
-# from src.get_configs import all_configs
 import re
 
-# config = all_configs
 '''Unnecessary information is cleared'''
 def job_clean(full_jobs_list, config):
     all_jobs_list = []
@@ -21,20 +18,20 @@ def job_clean(full_jobs_list, config):
             salary = '0'
         read = job.findAll('div', class_='jobad_stat')
         try:
-            intrest = int(read[0].strong.text)
+            interest = int(read[0].strong.text)
             if read[1].strong.text == '>50':
                 acept = 50
             else: acept = int(read[1].strong.text)
         except IndexError:
-            intrest = 0
+            interest = 0
             acept = 0
-        all_jobs_list.append((position, company_fix, city, salary, intrest, acept))
-    config.main_logger.info(f'Jobs fields is cleaned')
-    config.console_logger.info(f'Jobs fields is cleaned')
+        all_jobs_list.append((position, company_fix, city, salary, interest, acept))
+    config.main_logger.info(f'Unnecessary data is cleaned from jobs fields')
+    config.console_logger.info(f'Unnecessary data is cleaned from jobs fields')
     return all_jobs_list
 
 
-'''Clears the salary field to use as an int'''
+'''Converts the salary fields to a number'''
 def salary_clean(all_jobs_list, config):
     all_jobs_list_clean = []
     for i in all_jobs_list:
